@@ -34,6 +34,15 @@
   </servlet-mapping>
   
   <servlet>
+    <servlet-name>AjoutUtilisateur</servlet-name>
+    <servlet-class>fr.eni.enchere.servlet.AjoutUtilisateur</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AjoutUtilisateur</servlet-name>
+    <url-pattern>/Inscription</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
     <servlet-name>connectionUtilisateur</servlet-name>
     <servlet-class>fr.eni.enchere.servlet.connectionUtilisateur</servlet-class>
   </servlet>
