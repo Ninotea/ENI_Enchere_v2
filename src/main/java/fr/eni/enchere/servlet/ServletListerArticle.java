@@ -54,19 +54,16 @@ public class ServletListerArticle extends HttpServlet {
 		} 
 			
 		if (idCatRecherche == -1) {
-			System.out.println("Categorie TOUTES");
 			listArticle = artManag.recupererArticleAll(listCatUse);
 			
 		}else{
-			System.out.println("Categorie " + catRecherche);
 			listArticle = artManag.recupererArticleWhere(idCatRecherche,catRecherche);
 		}
 		
 		if(!motRecherche.equals("")) {
 			for (Article article : listArticle) {
 				if(article.getNomArticle().contains(motRecherche) || article.getDescription().contains(motRecherche) ) {
-					listArticleFinal.add(article);
-					System.out.println(article.getNomArticle() + " : " + article.getDescription());
+					listArticleFinal.add(article);	
 				}
 			}
 		}else{

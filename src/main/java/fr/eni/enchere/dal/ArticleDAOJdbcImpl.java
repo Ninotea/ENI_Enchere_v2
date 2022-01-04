@@ -74,7 +74,6 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 		catch(SQLException e)
 		{
 			e.printStackTrace();
-			System.out.println("erreur récupération catégorie");
 		}
 		return listeCategorie;
 	}
@@ -102,14 +101,12 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 						rs.getInt("no_utilisateur"));
 
 				listeArticle.add(articleResultSet);
-				System.out.println(articleResultSet.getDescription()+ "Dans le WHERE");
 			}
 		
 		}
 		catch(SQLException e)
 		{
 			e.printStackTrace();
-			System.out.println("erreur récupération Article");
 		}
 		return listeArticle;
 	}
@@ -143,14 +140,12 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 						rs.getInt("no_utilisateur"));
 
 				listeArticle.add(articleResultSet);
-				System.out.println(articleResultSet.getDescription() + "Dans le Select ALL");
 			}
 		
 		}
 		catch(SQLException e)
 		{
 			e.printStackTrace();
-			System.out.println("erreur récupération Article");
 		}
 		return listeArticle;
 	}

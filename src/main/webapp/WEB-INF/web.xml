@@ -14,6 +14,34 @@
     <servlet-name>ServletVendreArticle</servlet-name>
     <url-pattern>/AjouterUneEnchere</url-pattern>
   </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>ServletListerArticle</servlet-name>
+    <servlet-class>fr.eni.enchere.servlet.ServletListerArticle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletListerArticle</servlet-name>
+    <url-pattern>/VoirEncheres</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ServletListerArticle</servlet-name>
+    <servlet-class>fr.eni.enchere.servlet.ServletListerArticle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletListerArticle</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>connectionUtilisateur</servlet-name>
+    <servlet-class>fr.eni.enchere.servlet.connectionUtilisateur</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>connectionUtilisateur</servlet-name>
+    <url-pattern>/Connexion</url-pattern>
+  </servlet-mapping>
+  
 
   <jsp-config>
       <jsp-property-group>

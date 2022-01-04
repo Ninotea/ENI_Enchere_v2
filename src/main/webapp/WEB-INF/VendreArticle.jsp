@@ -53,13 +53,13 @@
 	<legend> Retrait </legend>
 	      
 	<label for="rue">Rue : </label>
-	<input type="text" name="rue" id="rue" value="${sessionScope.Utilisateur.codePostal}" placeholder="ex: 135 avenue Foche" required> <br><br>
+	<input type="text" name="rue" id="rue" value="${sessionScope.rue}" placeholder="ex: 135 avenue Foche" required> <br><br>
 			
 	<label for="codePostal">Code Postal : </label>
-	<input type="text" name="codePostal" id="codePostal" value="${sessionScope.Utilisateur.ville}" placeholder="ex: 75052" required> <br><br>
+	<input type="text" name="codePostal" id="codePostal" value="${sessionScope.codePostal}" placeholder="ex: 75052" required> <br><br>
 			
 	<label for="ville">Ville : </label>
-	<input type="text" name="ville" id="ville" value="${sessionScope.Utilisateur.ville}" placeholder="ex: Paris" required> <br><br>
+	<input type="text" name="ville" id="ville" value="${sessionScope.ville}" placeholder="ex: Paris" required> <br><br>
 	      
 	</fieldset>
     
