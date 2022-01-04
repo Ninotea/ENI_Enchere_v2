@@ -16,11 +16,9 @@
 <h3 style="margin-left :40%"> Nouvelle Vente </h3>
 
 <!-- affichage des codes erreurs récupérés dans le Catch de la request POST -->
-<c:if test="${!empty listExce}">
 	<c:forEach items="${listExce}" var="CodeExcep">
 		<p>${GestionException.getMessageErreur(CodeExcep)}</p>
-	</c:forEach> 
-</c:if>
+	</c:forEach>
 
 <c:if test="${empty sessionScope.user_id }">
 	<p> Vous n'êtes pas connecté.<br>

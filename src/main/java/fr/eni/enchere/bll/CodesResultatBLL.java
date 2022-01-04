@@ -26,13 +26,26 @@ public abstract class CodesResultatBLL {
 	 */
 	public static final int REGLE_ARTICLE_MISE_A_PRIX_ERREUR=20004;
 	/**
-	 * Echec de récupération catégorie dans le manager
+	 * Echec de récupération catégorie dans le manager categorie
 	 */
 	public static final int MANAGER_CATEGORIE_ERREUR=20005;
 	/**
+	 * Echec de récupération catégorie dans le manager
+	 */
+	public static final int MANAGER_CATEGORIE_NULL=20006;
+	/**
 	 * Echec de récupération article dans le manager
 	 */
-	public static final int MANAGER_ARTICLE_ERREUR=20006;
+	public static final int MANAGER_ARTICLE_ERREUR=20007;
+	/**
+	 * Echec de récupération article dans le manager 
+	 */
+	public static final int MANAGER_ARTICLE_NULL=20008;
+	/**
+	 * Pas d'article correspondant à la recherche
+	 */
+	public static final int ARTICLE_CORRESPONDANT_MOT_NULL=20009;
+	
 	
 	
 }

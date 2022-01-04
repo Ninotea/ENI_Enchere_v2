@@ -21,15 +21,6 @@ public class ArticleManager {
 		articleDAO = DAOFactory.getArticleDAO();
 	}
 	
-	
-	/*public static ArticleManager getInstance() {
-		if (instance == null) {
-			instance = new ArticleManager();
-		}
-		return instance;
-	}*/
-	
-	
 	public Article ajouter(Article article) throws GestionException {
 		
 		GestionException exception = new GestionException();
@@ -45,51 +36,78 @@ public class ArticleManager {
 		{
 			this.articleDAO.insert(article);
 		}
-		
-		if(exception.hasErreurs())
+		else
 		{
 			throw exception;
 		}
 		return article;
 	}
 	
-	public List<Categorie> recupererCategorie() {
-		List<Categorie> listeCategorie = null;
+	
+	public List<Categorie> recupererCategorie() throws GestionException{
 		
-		try {
-			listeCategorie = articleDAO.SelectAllCategories();
-		} catch (Exception e) {
-			GestionException gE = new GestionException();
-			gE.ajouterErreur(CodesResultatBLL.MANAGER_CATEGORIE_ERREUR);
-		} 
+		List<Categorie> listeCategorie = null;
+		GestionException exception = new GestionException();
+		
+		if(articleDAO.SelectAllCategories().size() == 0) {
+			exception.ajouterErreur(CodesResultatBLL.MANAGER_CATEGORIE_NULL);
+		}
+		listeCategorie = articleDAO.SelectAllCategories();
+	
 		return listeCategorie;	
 	}
 	
-	public List<Article> recupererArticleWhere(int idCatRecherche, String catRecherche) {
+	
+	public List<Article> recupererArticleWhere(int idCatRecherche, String catRecherche) throws GestionException{
 		List<Article> listeArticleWhere = null;
+		GestionException exception = new GestionException();
 		
-		try {
+		if(articleDAO.SelectArticleWhereCategorie(idCatRecherche,catRecherche).size() == 0) {
+			exception.ajouterErreur(CodesResultatBLL.MANAGER_ARTICLE_NULL);
+			throw exception;
+		}
+		else {
 			listeArticleWhere = articleDAO.SelectArticleWhereCategorie(idCatRecherche,catRecherche);
-		} catch (Exception e) {
-			GestionException gE = new GestionException();
-			gE.ajouterErreur(CodesResultatBLL.MANAGER_ARTICLE_ERREUR);
-		} 
+		}
+
 		return listeArticleWhere;	
 	}
 	
-	public List<Article> recupererArticleAll(List<Categorie> listCatUse) {
-		List<Article> listeArticleWhere = null;
+	public List<Article> recupererArticleAll(List<Categorie> listCatUse) throws GestionException{
+		List<Article> listeArticleAll = null;
+		GestionException exception = new GestionException();
 		
-		try {
-			listeArticleWhere = articleDAO.SelectArticleAll(listCatUse);
-		} catch (Exception e) {
-			GestionException gE = new GestionException();
-			gE.ajouterErreur(CodesResultatBLL.MANAGER_ARTICLE_ERREUR);
-		} 
-		return listeArticleWhere;	
+		if(articleDAO.SelectArticleAll(listCatUse).size() == 0) {
+			exception.ajouterErreur(CodesResultatBLL.MANAGER_ARTICLE_NULL);
+			throw exception;
+		}
+		else {
+		listeArticleAll = articleDAO.SelectArticleAll(listCatUse);
+		}
+		
+		return listeArticleAll;	
 	}
 	
-	//Validation
+	public List<Article> filtrerArticle(String motRecherche,List<Article> listArticle)throws GestionException{
+		List<Article> listeArticleFiltre = null;
+		GestionException exception = new GestionException();
+		
+		if(articleDAO.filtre(motRecherche,listArticle).size() == 0) {
+			exception.ajouterErreur(CodesResultatBLL.ARTICLE_CORRESPONDANT_MOT_NULL);
+			throw exception;
+		}
+		else {
+		listeArticleFiltre = articleDAO.filtre(motRecherche,listArticle);
+		}
+		return listeArticleFiltre;	
+	}
+	
+	
+	/*
+	 * 
+	 * Validation des entrées
+	 * 
+	 */
 	
 	private void validerNomArticle(Article article, GestionException gestionExcep){
 		if(article.getNomArticle()==null||article.getNomArticle().length()>30){
@@ -117,7 +135,6 @@ public class ArticleManager {
 	private void validerMiseAPrix(Article article, GestionException gestionExcep){
 		if(article.getMiseAPrix()<=0 ){
 			gestionExcep.ajouterErreur(CodesResultatBLL.REGLE_ARTICLE_MISE_A_PRIX_ERREUR);
-			System.out.println("problème mise à prix, code envoyé" + CodesResultatBLL.REGLE_ARTICLE_MISE_A_PRIX_ERREUR);
 		}
 	}
 

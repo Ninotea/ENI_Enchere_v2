@@ -12,5 +12,6 @@ public interface ArticleDAO {
 	public List<Categorie> SelectAllCategories();
 	public List<Article> SelectArticleWhereCategorie(int idCatRecherche,String catRecherche);
 	public List<Article> SelectArticleAll(List<Categorie> listCatUse);
+	public List<Article> filtre(String motRecherche,List<Article> listArticle);
 	
 }

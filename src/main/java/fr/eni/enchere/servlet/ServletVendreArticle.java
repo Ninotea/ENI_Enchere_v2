@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import fr.eni.enchere.bll.ArticleManager;
+import fr.eni.enchere.bll.CodesResultatBLL;
 import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.Article;
 import fr.eni.enchere.bo.Categorie;
@@ -31,7 +32,7 @@ public class ServletVendreArticle extends HttpServlet {
 	
 	Article article = new Article();
 	ArticleManager artManag = new ArticleManager();
-	List<Categorie> listCatUse = artManag.recupererCategorie();
+	List<Categorie> listCatUse = null;
 	Utilisateur currentUser = new Utilisateur();
 	UtilisateurManager userManag = new UtilisateurManager();
 	    
@@ -41,8 +42,14 @@ public class ServletVendreArticle extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			listCatUse = artManag.recupererCategorie();
+		} catch (GestionException e) {
+			request.setAttribute("listExce",e.getListeCodesErreur());			
+		}
 		request.setAttribute("listCatUse", listCatUse);
 		request.setCharacterEncoding("UTF-8");
+		
 		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/VendreArticle.jsp").forward(request, response);
 		
@@ -52,6 +59,11 @@ public class ServletVendreArticle extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			listCatUse = artManag.recupererCategorie();
+		} catch (GestionException e) {
+			request.setAttribute("listExce",e.getListeCodesErreur());			
+		}
 		request.setAttribute("listCatUse", listCatUse);
 		request.setCharacterEncoding("UTF-8");
 		
@@ -93,13 +105,12 @@ public class ServletVendreArticle extends HttpServlet {
 			artManag.ajouter(article);
 			
 		} catch (GestionException e) {
-			//je n'ai pas très bien compris pourquoi setAttribut dans le catch mais ça fonctionne
-			//TODO voir avec le prof
-			List<Integer> listeCodesErreur=new ArrayList<>();
-			listeCodesErreur.add(CodeResultatServlets.FORMAT_CHAMP_ARTICLE_ERREUR);
+			e.ajouterErreur(CodeResultatServlets.FORMAT_CHAMP_ARTICLE_ERREUR);
 			request.setAttribute("listExce",e.getListeCodesErreur());
 		} catch (Exception e) {
-			// Est-ce que les erreurs de date sont correctement gérée ?	
+			GestionException gE = new GestionException();
+			gE.ajouterErreur(CodeResultatServlets.FORMAT_DATE_ERREUR);
+			request.setAttribute("listExce",gE.getListeCodesErreur());
 		}
 
 		this.getServletContext().getRequestDispatcher("/WEB-INF/VendreArticle.jsp").forward(request, response);

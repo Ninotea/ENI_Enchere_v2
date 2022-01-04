@@ -55,7 +55,7 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 			
 		}
 	
-	
+	@Override
 	public List<Categorie> SelectAllCategories(){
 		
 		List<Categorie> listeCategorie = new ArrayList<Categorie>(); //Création d'une liste de catégorie
@@ -73,14 +73,17 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 		}
 		catch(SQLException e)
 		{
-			e.printStackTrace();
+			GestionException gestionException = new GestionException();
+			gestionException.ajouterErreur(CodesResultatDAL.RECUPERATION_CATEGORIE_ERREUR);
 		}
 		return listeCategorie;
 	}
 	
+	@Override
 	public List<Article> SelectArticleWhereCategorie(int idCatRecherche,String catRecherche){
 		
-		List<Article> listeArticle = new ArrayList<Article>(); //Création d'une liste de catégorie
+		List<Article> listeArticle = new ArrayList<Article>(); //Création d'une liste d'article
+		GestionException exception = new GestionException();
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) 
 		{				
@@ -106,14 +109,15 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 		}
 		catch(SQLException e)
 		{
-			e.printStackTrace();
+			
 		}
 		return listeArticle;
 	}
 	
+	@Override
 	public List<Article> SelectArticleAll(List<Categorie> listCatUse){
 		
-		List<Article> listeArticle = new ArrayList<Article>(); //Création d'une liste de catégorie
+		List<Article> listeArticle = new ArrayList<Article>(); //Création d'une liste d'article
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) 
 		{				
@@ -148,6 +152,19 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 			e.printStackTrace();
 		}
 		return listeArticle;
+	}
+
+
+	@Override
+	public List<Article> filtre(String motRecherche,List<Article> listArticle) {
+		List<Article> listArticleFiltre = new ArrayList<Article>();
+		
+		for (Article article : listArticle) {
+			if(article.getNomArticle().contains(motRecherche) || article.getDescription().contains(motRecherche) ) {
+				listArticleFiltre.add(article);	
+			}
+		}
+		return listArticleFiltre;
 	}
 
 }

@@ -10,14 +10,14 @@
 <!-- Inclusion de la barre horizontale de navigation -->
 <%@ include file="TopNavigation.jsp" %>
 
-
-<h3 style="margin-left :40%"> Liste des enchères </h3>
-
 <!-- affichage des codes erreurs récupérés dans le Catch de la request POST -->
 
 	<c:forEach items="${listExce}" var="CodeExcep">
 		<p>${GestionException.getMessageErreur(CodeExcep)}</p>
 	</c:forEach> 
+
+<h3 style="margin-left :40%"> Liste des enchères </h3>
+
 
 
 <form name="ListerArticles" method="post">
