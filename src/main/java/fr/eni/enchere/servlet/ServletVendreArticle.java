@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import fr.eni.enchere.bll.ArticleManager;
+import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.Article;
 import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Utilisateur;
@@ -31,6 +32,8 @@ public class ServletVendreArticle extends HttpServlet {
 	Article article = new Article();
 	ArticleManager artManag = new ArticleManager();
 	List<Categorie> listCatUse = artManag.recupererCategorie();
+	Utilisateur currentUser = new Utilisateur();
+	UtilisateurManager userManag = new UtilisateurManager();
 	    
 
 
@@ -56,9 +59,7 @@ public class ServletVendreArticle extends HttpServlet {
 			article.setNomArticle(request.getParameter("nomArticle"));
 			article.setDescription(request.getParameter("description"));
 			article.setMiseAPrix(Integer.valueOf(request.getParameter("prixDepart")));
-			
-			// TODO: A modifier quand la connexion sera implémentée SETVENDEUR
-			article.setVendeur(new Utilisateur(1, "pseudo","nom", "prenom", "test", "test", "test", "test", "test", "test", 0, false));		
+						
 			
 			// Formatage des dates
 			SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -68,14 +69,25 @@ public class ServletVendreArticle extends HttpServlet {
 			article.setDateDebutEnchere(dateDebut);
 			article.setDateFinEnchere(dateDeFin);
 			
+		
 			// Formatage categorie et set correct pour article
 			String catStrPost = request.getParameter("categorie");
+			
 			article.setCategorie(catStrPost);
-			for (Categorie categorie : listCatUse) {
-				if(categorie.getLibelle().equals(catStrPost)) {
-					article.setNoCategorie(categorie.getId());
+			
+				for (Categorie categorie : listCatUse) {
+					if(categorie.getLibelle().equals(catStrPost)) {
+						article.setNoCategorie(categorie.getId());
+					}
 				}
-			}
+			
+				
+			// Récupération des données utilisateurs via ID
+			HttpSession session = request.getSession();
+			currentUser = userManag.getById((int) session.getAttribute("user_id"));
+
+			article.setVendeur(currentUser);		
+			
 			
 			// Demande d'ajout à la base de données
 			artManag.ajouter(article);
