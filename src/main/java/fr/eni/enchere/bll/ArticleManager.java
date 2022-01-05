@@ -1,5 +1,6 @@
 package fr.eni.enchere.bll;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class ArticleManager {
 	
 	public static ArticleManager instance;
 	private ArticleDAO articleDAO;
-	public Date aujourdhui = new Date();	
+	public Date aujourdhui = new Date();
 	
 	
 	
@@ -73,35 +74,69 @@ public class ArticleManager {
 		return listeArticleWhere;	
 	}
 	
-	public List<Article> recupererArticleAll(List<Categorie> listCatUse) throws GestionException{
-		List<Article> listeArticleAll = null;
+	public Article recupererArticleWhereID(int ArticleId) throws GestionException{
+		Article ArticleWhereId = null;
 		GestionException exception = new GestionException();
 		
-		if(articleDAO.SelectArticleAll(listCatUse).size() == 0) {
+		if(articleDAO.SelectArticleWhereID(ArticleId) == null) {
 			exception.ajouterErreur(CodesResultatBLL.MANAGER_ARTICLE_NULL);
 			throw exception;
 		}
 		else {
-		listeArticleAll = articleDAO.SelectArticleAll(listCatUse);
+			ArticleWhereId = articleDAO.SelectArticleWhereID(ArticleId);
+		}
+
+		return ArticleWhereId;	
+	}
+	
+	
+	public List<Article> recupererArticleAll() throws GestionException{
+		List<Article> listeArticleAll = null;
+		GestionException exception = new GestionException();
+		
+		if(articleDAO.SelectArticleAll().size() == 0) {
+			exception.ajouterErreur(CodesResultatBLL.MANAGER_ARTICLE_NULL);
+			throw exception;
+		}
+		else {
+		listeArticleAll = articleDAO.SelectArticleAll();
 		}
 		
 		return listeArticleAll;	
 	}
 	
+	
 	public List<Article> filtrerArticle(String motRecherche,List<Article> listArticle)throws GestionException{
-		List<Article> listeArticleFiltre = null;
+		List<Article> listeArticleFiltre = new ArrayList<Article>();
 		GestionException exception = new GestionException();
 		
-		if(articleDAO.filtre(motRecherche,listArticle).size() == 0) {
+		for (Article article : listArticle) {
+			if(article.getNomArticle().contains(motRecherche) || article.getDescription().contains(motRecherche) ) {
+				listeArticleFiltre.add(article);	
+			}
+		}
+		if(listeArticleFiltre.size() == 0) {
 			exception.ajouterErreur(CodesResultatBLL.ARTICLE_CORRESPONDANT_MOT_NULL);
 			throw exception;
-		}
-		else {
-		listeArticleFiltre = articleDAO.filtre(motRecherche,listArticle);
 		}
 		return listeArticleFiltre;	
 	}
 	
+
+	public String ConversionEtatVente(int prixVente, java.sql.Date dateDeDebut, java.sql.Date dateDeFin) {
+		String etatVente = null;
+		
+		if(prixVente != 0) {
+			etatVente = "Vendu";
+		} else if(dateDeDebut.before(aujourdhui)) {
+			if(dateDeFin.before(aujourdhui)) {
+				etatVente = "Terminé sans vente";
+			}else {
+				etatVente = "En cours";
+			}
+		}
+		return etatVente;
+	}
 	
 	/*
 	 * 
@@ -137,5 +172,6 @@ public class ArticleManager {
 			gestionExcep.ajouterErreur(CodesResultatBLL.REGLE_ARTICLE_MISE_A_PRIX_ERREUR);
 		}
 	}
+
 
 }
