@@ -11,7 +11,7 @@ public interface ArticleDAO {
 	public void insert(Article article) throws GestionException;
 	public List<Categorie> SelectAllCategories();
 	public List<Article> SelectArticleWhereCategorie(int idCatRecherche,String catRecherche);
-	public List<Article> SelectArticleAll(List<Categorie> listCatUse);
-	public List<Article> filtre(String motRecherche,List<Article> listArticle);
+	public List<Article> SelectArticleAll() throws GestionException;
+	public Article SelectArticleWhereID(int articleId) throws GestionException;
 	
 }

@@ -25,15 +25,8 @@ public class ServletDeconnexion extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			HttpSession session = request.getSession();
-			session.removeAttribute("user_id");
-			session.removeAttribute("prenom");
-			session.removeAttribute("nom");
-			session.removeAttribute("rue");
-			session.removeAttribute("codePostal");
-			session.removeAttribute("ville");
-			session.removeAttribute("credit");
-			session.removeAttribute("administrateur");
-			response.sendRedirect("VoirEncheres");
+			session.invalidate();
+			response.sendRedirect("Les_Encheres");
 			System.out.println("doGET Deconnexion");
 		}catch (Exception e){
 			System.out.println("erreur à remplacer par le Gestion Exception");

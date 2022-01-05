@@ -51,26 +51,37 @@
 			
 		</div>
 		<p>
-			<span style="margin: 30px"><input type="submit" value="rechercher" name="btRechercher" title="Rechercher" ></span>		
+			<span style="margin: 30px"><input type="submit" value="Rechercher" name="btRechercher"></span>		
 		</p>	
-	</div>	
+	</div>
+</form>	
 		
 
 
-	<div style = "display: flex; flex-wrap: wrap;" >
-		<c:if test="${!empty listeArticleEnchere}">
-			<c:forEach items="${listeArticleEnchere}" var="listArt">
-				<p style ="width : 50% ;">
-				<strong>${listArt.getNomArticle()}</strong> <br>
-				Prix : ${listArt.getMiseAPrix()} points <br> <!-- à remplacer par prix enchère  -->
-				Fin de l'enchère : ${listArt.getDateFinEnchere()} <br><br>
-				Vendeur : ${listArt.getVendeur().getPseudo()} "pas encore fonctionnel"
+<div style = "display: flex; flex-wrap: wrap;" >
+	<c:if test="${!empty listeArticleEnchere}">
+		<c:forEach items="${listeArticleEnchere}" var="listArt">
+		  	
+			<div style ="width : 50% ;">
+				<p>
+					<strong>${listArt.getNomArticle()}</strong> <br>
+					Prix : ${listArt.getMiseAPrix()} points <br> <!-- à remplacer par prix enchère  -->
+					Fin de l'enchère : ${listArt.getDateFinEnchere()} <br><br>
+					Vendeur : ${listArt.getVendeur().getPseudo()} <br><br>
 				</p>
-			</c:forEach> 
-		</c:if>
-	</div>
+				<p>
+					<c:if test="${!empty sessionScope.user_id }">
+						<form name="details" method="post">
+							<input type="text" name="detailNoArt" value="${listArt.getNoArticle()}" hidden="hidden"> <!-- hidden pour transmettre le parametre noArticle sans l'afficher -->
+							<input type="submit" value="Details" name="details" >
+						</form>
+					</c:if>
+				</p>
+			</div>
+		</c:forEach> 
+	</c:if>
+</div>
 	
-</form>
 
 </body>
 </html>

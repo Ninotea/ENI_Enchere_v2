@@ -70,7 +70,7 @@ public class connectionUtilisateur extends HttpServlet {
 					session.setAttribute("credit", user.getCredit());
 					session.setAttribute("administrateur", user.getAdministrateur());
 					
-					response.sendRedirect("VoirEncheres"); // CORRESPOND AU NOM de l'URL PATTERN dans le Web.xml
+					response.sendRedirect("Les_Encheres"); // CORRESPOND au nom du @WebServlet
 	
 				} else {
 					request.setAttribute("error", "Mot de passe incorrect");

@@ -5,7 +5,7 @@
 	<nav style ="display : flex;">
 		<p>ENI-Enchères</p>
 		<p style ="margin-left : auto;">
-			<a href="VoirEncheres"> Enchères </a>
+			<a href="Les_Enchères"> Enchères </a>
 			<a href="AjouterUneEnchere"> Vendre </a>
 			<a href="MonProfil"> Profil </a>
 			<a href="Deconnexion"> Déconnexion </a>

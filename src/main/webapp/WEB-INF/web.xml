@@ -15,24 +15,6 @@
     <url-pattern>/AjouterUneEnchere</url-pattern>
   </servlet-mapping>
   
-    <servlet>
-    <servlet-name>ServletListerArticle</servlet-name>
-    <servlet-class>fr.eni.enchere.servlet.ServletListerArticle</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ServletListerArticle</servlet-name>
-    <url-pattern>/VoirEncheres</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-    <servlet-name>ServletListerArticle</servlet-name>
-    <servlet-class>fr.eni.enchere.servlet.ServletListerArticle</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ServletListerArticle</servlet-name>
-    <url-pattern>/</url-pattern>
-  </servlet-mapping>
-  
   <servlet>
     <servlet-name>AjoutUtilisateur</servlet-name>
     <servlet-class>fr.eni.enchere.servlet.AjoutUtilisateur</servlet-class>
