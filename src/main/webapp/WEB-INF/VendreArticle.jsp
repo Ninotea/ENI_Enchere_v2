@@ -25,6 +25,10 @@
 		Merci de vous connecter avant de pouvoir accèder à l'ajout d'article.</p>
 </c:if>
 
+<c:if test="${!empty requestScope.messageAjout }">
+	<p>${requestScope.messageAjout}</p>
+</c:if>
+
 <c:if test="${!empty sessionScope.user_id }">
 	<form style="margin-left :10%; width :60%" name="VendreArticle" method="post">
 	

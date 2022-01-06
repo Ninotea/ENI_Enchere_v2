@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+
 // TEST PUSH
 /**
  * 
@@ -15,6 +16,15 @@ import java.util.ResourceBundle;
 public class GestionException extends Exception {
 	private static final long serialVersionUID = 1L;
 	private List<Integer> listeCodesErreur;
+    private static GestionException instance;
+	
+	
+	public static GestionException getInstance() {
+		if (instance == null) {
+            return new GestionException();
+        }
+        return instance;
+    }
 	
 	// Lecture du fichier properties servant à récupérer les codes erreurs et leurs valeures
 	private static ResourceBundle resourceBun;

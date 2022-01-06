@@ -2,9 +2,6 @@ package fr.eni.enchere.servlet;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import fr.eni.enchere.bll.ArticleManager;
-import fr.eni.enchere.bll.CodesResultatBLL;
 import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.Article;
 import fr.eni.enchere.bo.Categorie;
@@ -50,15 +46,14 @@ public class ServletVendreArticle extends HttpServlet {
 		request.setAttribute("listCatUse", listCatUse);
 		request.setCharacterEncoding("UTF-8");
 		
-		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/VendreArticle.jsp").forward(request, response);
-		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		try {
 			listCatUse = artManag.recupererCategorie();
 		} catch (GestionException e) {
@@ -102,13 +97,15 @@ public class ServletVendreArticle extends HttpServlet {
 			
 			
 			// Demande d'ajout à la base de données
-			artManag.ajouter(article);
+			String messageAjout = null;
+			messageAjout = artManag.ajouter(article);
+			request.setAttribute("messageAjout",messageAjout);
 			
 		} catch (GestionException e) {
 			e.ajouterErreur(CodeResultatServlets.FORMAT_CHAMP_ARTICLE_ERREUR);
 			request.setAttribute("listExce",e.getListeCodesErreur());
 		} catch (Exception e) {
-			GestionException gE = new GestionException();
+			GestionException gE = GestionException.getInstance();
 			gE.ajouterErreur(CodeResultatServlets.FORMAT_DATE_ERREUR);
 			request.setAttribute("listExce",gE.getListeCodesErreur());
 		}

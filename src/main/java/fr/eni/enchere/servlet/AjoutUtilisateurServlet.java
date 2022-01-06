@@ -18,7 +18,7 @@ import fr.eni.enchere.bo.Utilisateur;
  * Servlet implementation class ServletInscription
  */
 @WebServlet("/ajoutUtilisateur")
-public class AjoutUtilisateur extends HttpServlet {
+public class AjoutUtilisateurServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
  
     /**
@@ -36,10 +36,9 @@ public class AjoutUtilisateur extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");	
 
-        RequestDispatcher rd = null;
-        String error = null;
+		String error = null;
 
-        UtilisateurManager utilisateurManager = new UtilisateurManager();
+        UtilisateurManager userManag = UtilisateurManager.getInstance();
 
         String pseudo = request.getParameter("pseudo");
         String nom = request.getParameter("nom");
@@ -51,50 +50,46 @@ public class AjoutUtilisateur extends HttpServlet {
         String ville = request.getParameter("ville");
         String password = request.getParameter("motDePasse");
         String confirmPassword = request.getParameter("confirmation");
-        String passwordHash = utilisateurManager.encryptPassword(password);
-        
-        System.out.println(pseudo + " est le pseudo récupéré");
+        String passwordHash = userManag.encryptPassword(password);
 
         Pattern pattern = Pattern.compile("^[a-zA-Z0-9]+$");
         Matcher matcher = pattern.matcher(password);
+        
 
         if (!password.equals(confirmPassword)) {
             error = "Les mots de passe ne correspondent pas";
 
-        } else if (!utilisateurManager.isPseudoAvailable(pseudo)) {
+        } else if (!userManag.isPseudoAvailable(pseudo)) {
             error = "Le pseudo existe déjà";
 
-        } else if (!utilisateurManager.isEmailAvailable(email)) {
+        } else if (!userManag.isEmailAvailable(email)) {
             error = "L'email existe déjà";
 
         } else if (!matcher.matches()) {
             error = "Le pseudo ne doit contenir que des caractères alphanumériques";
 
         } else {
-            Utilisateur utilisateur = new Utilisateur();
-            	utilisateur.setPseudo(pseudo);
-            	utilisateur.setNom(nom);
-            	utilisateur.setPrenom(prenom);
-            	utilisateur.setEmail(email);
-            	utilisateur.setTelephone(telephone);
-            	utilisateur.setRue(rue);
-            	utilisateur.setCodePostal(codePostal);
-            	utilisateur.setVille(ville);
-            	utilisateur.setMotDePasse(passwordHash);
+            Utilisateur user = new Utilisateur();
+            	user.setPseudo(pseudo);
+            	user.setNom(nom);
+            	user.setPrenom(prenom);
+            	user.setEmail(email);
+            	user.setTelephone(telephone);
+            	user.setRue(rue);
+            	user.setCodePostal(codePostal);
+            	user.setVille(ville);
+            	user.setMotDePasse(passwordHash);
             	
-            System.out.println(utilisateur);
             try {
-                utilisateurManager.ajouter(utilisateur);
+                userManag.ajouter(user);
             } catch (Exception e) {
             }
         }
-        
-        System.out.println("Les erreurs ICI : " + error);
 
        // Redirige vers la page inscription avec un message d'erreur
         if (error != null) {
             request.setAttribute("error", error);
-            rd.forward(request, response);
+			this.getServletContext().getRequestDispatcher("/WEB-INF/InscriptionUtilisateur.jsp").forward(request, response);
         }
 
        response.sendRedirect(request.getContextPath() + "/ajoutUtilisateur");

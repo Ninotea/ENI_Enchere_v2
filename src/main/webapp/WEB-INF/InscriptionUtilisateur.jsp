@@ -10,6 +10,12 @@
 
 <body>
 
+<c:if test="${!empty requestScope.error}">${requestScope.error}</c:if>
+
+	<c:forEach items="${listExce}" var="CodeExcep">
+		<p>${GestionException.getMessageErreur(CodeExcep)}</p>
+	</c:forEach>
+
 <form name="InscritionUtilisateur" method="post">
            <label for="lastName">Pseudo:</label>
                     <input type="text" class="form-control" id="pseudo" name="pseudo"
@@ -70,16 +76,7 @@
                 
                     <input type="password" id="motDePasse" name="confirmation"
                            placeholder="Confirmation du mot de passe" required>
-              
-
-          
-
-           
-                   <!--  <button class="btn btn-danger" onclick="window.location='${pageContext.request.contextPath}/index';return false;">Annuler</button>
-              <br/>
-                    <button class="btn btn-info" onclick="window.location='${pageContext.request.contextPath}/ConnectionUtilisateur';return false;">
-                        Se connecter
-                    </button> --> 
+               
                     <button type="submit" class="btn btn-primary">
                             Créer
                     </button>

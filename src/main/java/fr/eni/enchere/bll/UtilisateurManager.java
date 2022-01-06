@@ -14,7 +14,17 @@ import fr.eni.enchere.dal.UtilisateurDAO;
 
 public class UtilisateurManager {
 
+	private static UtilisateurManager instance;
 	private UtilisateurDAO utilisateurDAO;
+	
+	
+	public static UtilisateurManager getInstance() {
+		if (instance == null) {
+            return new UtilisateurManager();
+        }
+        return instance;
+    }
+	
 	
 	public UtilisateurManager() {
 		utilisateurDAO = DAOFactory.getUtilisateurDAO();

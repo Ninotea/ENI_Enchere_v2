@@ -12,7 +12,7 @@ import fr.eni.enchere.exceptions.GestionException;
 
 public class ArticleManager {
 	
-	public static ArticleManager instance;
+	private static ArticleManager instance;
 	private ArticleDAO articleDAO;
 	public Date aujourdhui = new Date();
 	
@@ -30,10 +30,10 @@ public class ArticleManager {
 	}
 	
 	
-	public Article ajouter(Article article) throws GestionException {
+	public String ajouter(Article article) throws GestionException {
 		
-		GestionException exception = new GestionException();
-		//l'article est déja créé dans la servlet, pas de besoin de l'instancier un nouvel article ici
+		GestionException exception = GestionException.getInstance();
+		String message = null;
 		
 		this.validerNomArticle(article,exception);
 		this.validerDescription(article,exception);
@@ -44,12 +44,13 @@ public class ArticleManager {
 		if(!exception.hasErreurs())
 		{
 			this.articleDAO.insert(article);
+			message = "Article ajouté avec succès";
 		}
 		else
 		{
 			throw exception;
 		}
-		return article;
+		return message;
 	}
 
 	
@@ -147,6 +148,11 @@ public class ArticleManager {
 		return listeArticleAll;	
 	}
 	
+	/*
+	 * 
+	 * Traitements sans DAO
+	 * 
+	 */
 	
 	public List<Article> filtrerArticle(String motRecherche,List<Article> listArticle)throws GestionException{
 		List<Article> listeArticleFiltre = new ArrayList<Article>();
@@ -167,7 +173,7 @@ public class ArticleManager {
 
 	public String ConversionEtatVente(int prixVente, java.sql.Date dateDeDebut, java.sql.Date dateDeFin) {
 		String etatVente = null;
-		
+		//"EnCours""NonDeb""Remporte""Termine"
 		
 		if(prixVente != 0) {
 			// Si on a un prix de vente l'article est vendu
@@ -184,10 +190,98 @@ public class ArticleManager {
 			}
 		}else {
 			//l'enchère n'a pas démarrée
-			etatVente = "en attente";
+			etatVente = "Non débutée";
 		}
 		return etatVente;
 	}
+	
+	public Boolean isNull(String message) {
+		Boolean resultat;
+		if (message == null) {
+			resultat = false;
+		}else {
+			resultat = true;
+		}
+		return resultat;
+	}
+
+	public List<Article> filtreByTypeArticle(List<Article> listArticleFinal, String typeArticle, int noUser) throws GestionException {
+		List<Article> resultatList = new ArrayList<Article>();
+		GestionException exception = GestionException.getInstance();
+		if(typeArticle.equals("achat")) {
+			for (Article article : listArticleFinal) {
+				if(article.getVendeur().getNoUtilisateur() != noUser) {
+					resultatList.add(article);
+				}
+			}
+			
+		}else if(typeArticle.equals("vente")) {
+			for (Article article : listArticleFinal) {
+				if(article.getVendeur().getNoUtilisateur() == noUser) {
+					resultatList.add(article);
+				}
+			}
+			
+		}else {
+			throw exception;
+		}
+		
+		return resultatList;
+	}
+
+
+	public List<Article> addWhenEtatVente(List<Article> listAAgrementer, List<Article> listArticleFiltreParType,String etatVenteRecherche) throws GestionException {
+		List<Article> resultatList = new ArrayList<Article>();
+		GestionException exception = GestionException.getInstance();
+		
+		//"EnCours""NonDeb""Termine""NonRemporte"
+		//"Remporte" signifie  Terminé + meilleur enchère par l'utilisateur courant
+		//TODO modifier la formulaire quand on aura le système d'enchère
+		
+		if(listAAgrementer != null) {
+			resultatList = listAAgrementer;
+		}
+		
+		if(etatVenteRecherche.equals("Termine")) {
+			for (Article article : listArticleFiltreParType) {
+				if(article.getEtatVente() == "Vendu") {
+					resultatList.add(article);
+				}
+			}
+			
+		}else if(etatVenteRecherche.equals("Remporte")) {
+			//TODO à ajouter une comparaison des enchères
+			for (Article article : listArticleFiltreParType) {
+				if(article.getEtatVente() == "Vendu") { 
+					resultatList.add(article);
+				}
+			}
+			
+		}else if(etatVenteRecherche.equals("EnCours")) {
+			for (Article article : listArticleFiltreParType) {
+				if(article.getEtatVente() == "En cours") {
+					resultatList.add(article);
+				}
+			}
+		}else if(etatVenteRecherche.equals("NonDeb")) {
+			for (Article article : listArticleFiltreParType) {
+				if(article.getEtatVente() == "Non débutée") {
+					resultatList.add(article);
+				}
+			}
+		}else if(etatVenteRecherche.equals("NonRemporte")) {
+			for (Article article : listArticleFiltreParType) {
+				if(article.getEtatVente() == "Terminé sans vente") {
+					resultatList.add(article);
+				}
+			}
+		}else{
+			throw exception;
+		}
+		
+		return resultatList;
+	}
+
 	
 	/*
 	 * 
@@ -229,6 +323,5 @@ public class ArticleManager {
 			gestionExcep.ajouterErreur(CodesResultatBLL.REGLE_ARTICLE_MISE_A_PRIX_ERREUR);
 		}
 	}
-
 
 }

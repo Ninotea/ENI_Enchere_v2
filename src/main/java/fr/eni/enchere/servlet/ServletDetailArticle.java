@@ -109,7 +109,6 @@ public class ServletDetailArticle extends HttpServlet {
 				}
 				if(messageDelete != null) {
 					response.sendRedirect("Acceuil");
-					System.out.println("Etat suppression : " + messageDelete);
 				}
 				
 			}
@@ -164,7 +163,7 @@ public class ServletDetailArticle extends HttpServlet {
 					e.ajouterErreur(CodeResultatServlets.FORMAT_CHAMP_ARTICLE_ERREUR);
 					request.setAttribute("listExce",e.getListeCodesErreur());
 				} catch (Exception e) {
-					GestionException gE = new GestionException();
+					GestionException gE = GestionException.getInstance();
 					gE.ajouterErreur(CodeResultatServlets.FORMAT_DATE_ERREUR);
 					request.setAttribute("listExce",gE.getListeCodesErreur());
 				}

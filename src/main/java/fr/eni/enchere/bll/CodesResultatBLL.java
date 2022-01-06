@@ -53,6 +53,10 @@ public abstract class CodesResultatBLL {
 	 * Echec de récupération article à supprimer dans le manager 
 	 */
 	public static final int MANAGER_ARTICLE_DELETE_NULL = 20011;
+	/**
+	 * Validation de la disponibilité du pseudo Erreur
+	 */
+	public static final int VERIFICATION_PSEUDO_ERREUR = 20012;
 	
 	
 }
