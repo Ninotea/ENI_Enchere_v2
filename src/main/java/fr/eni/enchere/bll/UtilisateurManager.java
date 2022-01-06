@@ -135,4 +135,21 @@ public class UtilisateurManager {
 		}
 		return false;
 	}
+
+
+	public void upate(Utilisateur user) throws GestionException {
+		
+		GestionException exception = new GestionException();
+
+		if(!exception.hasErreurs())
+		{
+			this.utilisateurDAO.update(user);
+		}
+		else
+		{
+			throw exception;
+		}
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -17,19 +17,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 		  + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 	private static final String UPDATE =
-			"UPDATE UTILISATEURS " +
-			"SET " +
-				"pseudo = ?," +
-				"nom = ?," +
-				"prenom = ?," +
-				"email = ?," +
-				"telephone = ?," +
-				"rue = ?," +
-				"code_postal = ?," +
-				"ville = ?," +
-				"mot_de_passe = ?," +
-				"credit = ?," +
-				"administrateur = ? " +
+			"UPDATE UTILISATEURS SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ?, mot_de_passe = ? " +
 			"WHERE no_utilisateur = ?;";
 	
 	private static final String SELECT = 
@@ -117,7 +105,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			pStmt.setString(6, utilisateur.getRue().toString());
 			pStmt.setString(7, utilisateur.getCodePostal());
 			pStmt.setString(8, utilisateur.getVille().toString());
-			pStmt.setInt(9, utilisateur.getNoUtilisateur());
+			pStmt.setString(9, utilisateur.getMotDePasse());
+			pStmt.setInt(10, utilisateur.getNoUtilisateur());
 
 			pStmt.executeUpdate();
 
