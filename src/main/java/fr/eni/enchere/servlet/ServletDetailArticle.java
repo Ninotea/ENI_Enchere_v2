@@ -31,15 +31,16 @@ public class ServletDetailArticle extends HttpServlet {
     public ServletDetailArticle() {
         super();
     }
+    
+    ArticleManager artManag = ArticleManager.getInstance();
+	Article articleDetail = new Article();
+	List<Categorie> listCatUse = new ArrayList<Categorie>();
+    
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
-		
-		ArticleManager artManag = new ArticleManager();
-		Article articleDetail = new Article();
-		List<Categorie> listCatUse = new ArrayList<Categorie>();
-			
+					
 			int noArticleDetail = (int) session.getAttribute("detailNoArt");
 			//session.removeAttribute("detailNoArt");
 			
@@ -70,9 +71,6 @@ public class ServletDetailArticle extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");	
 		HttpSession session = request.getSession();
 		
-		ArticleManager artManag = new ArticleManager();
-		Article articleDetail = new Article();
-		List<Categorie> listCatUse = new ArrayList<Categorie>();
 		int noArticleDetail = -1;
 		String messageDelete = null;
 

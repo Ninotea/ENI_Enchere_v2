@@ -17,10 +17,18 @@ public class ArticleManager {
 	public Date aujourdhui = new Date();
 	
 	
+	public static ArticleManager getInstance() {
+        if (instance == null) {
+            return new ArticleManager();
+        }
+        return instance;
+    }
+	
 	
 	public ArticleManager() {
 		articleDAO = DAOFactory.getArticleDAO();
 	}
+	
 	
 	public Article ajouter(Article article) throws GestionException {
 		
@@ -44,6 +52,7 @@ public class ArticleManager {
 		return article;
 	}
 
+	
 	public Article modifier(Article article) throws GestionException {
 		GestionException exception = new GestionException();
 		

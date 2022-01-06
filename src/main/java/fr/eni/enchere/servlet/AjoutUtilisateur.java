@@ -25,6 +25,7 @@ public class AjoutUtilisateur extends HttpServlet {
      * Page d'inscription à l'application
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");	
     	RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/InscriptionUtilisateur.jsp");
         rd.forward(request, response);
     }
@@ -33,6 +34,7 @@ public class AjoutUtilisateur extends HttpServlet {
      * Tentative d'inscription d'un nouvel utilisateur
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");	
 
         RequestDispatcher rd = null;
         String error = null;

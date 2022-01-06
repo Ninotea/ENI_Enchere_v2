@@ -26,7 +26,7 @@ import fr.eni.enchere.exceptions.GestionException;
 public class ServletListerArticle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	ArticleManager artManag = new ArticleManager();
+	ArticleManager artManag = ArticleManager.getInstance();
 	List<Categorie> listCatUse = null;
 	List<Article> listArticle = null;
 	List<Article> listArticleFinal = null;
