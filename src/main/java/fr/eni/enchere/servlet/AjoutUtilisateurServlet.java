@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.Utilisateur;
+import fr.eni.enchere.exceptions.GestionException;
 
 /**
  * Servlet implementation class ServletInscription
@@ -36,7 +37,8 @@ public class AjoutUtilisateurServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");	
 
-		String error = null;
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/InscriptionUtilisateur.jsp");
+        String error = null;
 
         UtilisateurManager userManag = UtilisateurManager.getInstance();
 
@@ -59,16 +61,20 @@ public class AjoutUtilisateurServlet extends HttpServlet {
         if (!password.equals(confirmPassword)) {
             error = "Les mots de passe ne correspondent pas";
 
-        } else if (!userManag.isPseudoAvailable(pseudo)) {
+        } /*else if (!userManag.isPseudoAvailable(pseudo)) {
             error = "Le pseudo existe déjà";
 
-        } else if (!userManag.isEmailAvailable(email)) {
+        }*/ else if (!userManag.isEmailAvailable(email)) {
             error = "L'email existe déjà";
 
         } else if (!matcher.matches()) {
             error = "Le pseudo ne doit contenir que des caractères alphanumériques";
 
         } else {
+        	
+        	try {
+				userManag.isPseudoAvailable(pseudo);
+        	
             Utilisateur user = new Utilisateur();
             	user.setPseudo(pseudo);
             	user.setNom(nom);
@@ -79,19 +85,24 @@ public class AjoutUtilisateurServlet extends HttpServlet {
             	user.setCodePostal(codePostal);
             	user.setVille(ville);
             	user.setMotDePasse(passwordHash);
+            
             	
-            try {
                 userManag.ajouter(user);
-            } catch (Exception e) {
-            }
+                
+			} catch (GestionException e1) {
+				request.setAttribute("listExce",e1.getListeCodesErreur());
+				this.getServletContext().getRequestDispatcher("/WEB-INF/InscriptionUtilisateur.jsp").forward(request, response);
+			}
         }
 
        // Redirige vers la page inscription avec un message d'erreur
         if (error != null) {
             request.setAttribute("error", error);
-			this.getServletContext().getRequestDispatcher("/WEB-INF/InscriptionUtilisateur.jsp").forward(request, response);
+            rd.forward(request, response);
+            this.getServletContext().getRequestDispatcher("/WEB-INF/InscriptionUtilisateur.jsp").forward(request, response);
         }
 
+		
        response.sendRedirect(request.getContextPath() + "/ajoutUtilisateur");
     }
 }

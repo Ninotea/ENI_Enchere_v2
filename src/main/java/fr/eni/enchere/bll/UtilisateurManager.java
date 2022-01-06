@@ -51,8 +51,17 @@ public class UtilisateurManager {
 		return utilisateurDAO.getById(userId);
 	}
 	
-	public boolean isPseudoAvailable(String pseudo) {
-		return (utilisateurDAO.getByPseudo(pseudo) == null);
+	public boolean isPseudoAvailable(String pseudo) throws GestionException {
+		Boolean pseudoExist = false;
+		GestionException exception = GestionException.getInstance();
+		
+		if(utilisateurDAO.getByPseudo(pseudo) != null) {
+			exception.ajouterErreur(CodesResultatBLL.VERIFICATION_PSEUDO_ERREUR);
+			pseudoExist = true;
+			throw exception;
+		}
+		
+		return pseudoExist;
 	}
 
 	public boolean isEmailAvailable(String email) {
