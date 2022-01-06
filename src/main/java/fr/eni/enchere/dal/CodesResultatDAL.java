@@ -19,5 +19,13 @@ public abstract class CodesResultatDAL {
 	 * Echec de récupération des catégories dans la base de donnée
 	 */
 	public static final int RECUPERATION_ARTICLE_WHERE_NULL=10002;
+	/**
+	 * Echec de modification de l'article en vente
+	 */
+	public static final int UPDATE_ARTICLE_ERREUR = 10003;
+	/**
+	 * Echec de la suppression de l'article en vente
+	 */
+	public static final int DELETE_ARTICLE_ERREUR = 10004;
 	
 }

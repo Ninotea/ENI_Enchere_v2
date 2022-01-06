@@ -20,6 +20,11 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 	private static final String INSERT_ARTICLE = "insert into ARTICLES"
 			+ "(nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie)"
 			+ "values(?,?,?,?,?,?,?);";
+	private static final String UPDATE_ARTICLE = "update ARTICLES set"
+			+ " nom_article = ?, description = ?, date_debut_encheres = ?, date_fin_encheres = ?, prix_initial = ?, no_utilisateur = ?, no_categorie = ?"
+			+ " WHERE no_article = ?";
+	private static final String DELETE_ARTICLE ="DELETE FROM ARTICLES WHERE no_article = ?";
+	
 	private static final String SQL_SELECT_ALL_CATEGORIES = "SELECT no_categorie, libelle FROM CATEGORIES";
 	private static final String SQL_SELECT_ARTICLE_ALL = 
 			"SELECT no_article, nom_article,description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_categorie," 				// La partie Article
@@ -61,8 +66,51 @@ public class ArticleDAOJdbcImpl implements ArticleDAO {
 				GestionException gestionException = new GestionException();
 				gestionException.ajouterErreur(CodesResultatDAL.INSERTION_ARTICLE_ERREUR);
 			}
-			
 		}
+	
+	@Override
+	public void update(Article article) throws GestionException{
+
+		try(Connection cnx = ConnectionProvider.getConnection()) 
+		{
+
+					PreparedStatement statement = cnx.prepareStatement(UPDATE_ARTICLE);
+					statement.setString(1, article.getNomArticle());
+					statement.setString(2, article.getDescription());
+					statement.setDate(3, new Date(article.getDateDebutEnchere().getTime()));
+					statement.setDate(4, new Date(article.getDateFinEnchere().getTime()));
+					statement.setInt(5, article.getMiseAPrix());
+					statement.setInt(6, article.getVendeur().getNoUtilisateur());
+					statement.setInt(7, article.getNoCategorie());
+					statement.setInt(8, article.getNoArticle()); // donne le numéro d'article à modifier dans la BDD -- correspond au ? dans WHERE no_article = ?
+					statement.executeUpdate();
+			}
+			catch(SQLException e)
+			{
+				GestionException gestionException = new GestionException();
+				gestionException.ajouterErreur(CodesResultatDAL.UPDATE_ARTICLE_ERREUR);
+			}
+		}
+	
+	@Override
+	public String delete(int noArticleDelete) throws GestionException {
+		String messageDelete = null;
+		
+		try(Connection cnx = ConnectionProvider.getConnection()) 
+		{
+					PreparedStatement statement = cnx.prepareStatement(DELETE_ARTICLE);
+					statement.setInt(1, noArticleDelete);
+					statement.executeUpdate();
+					messageDelete = "Article Supprimé";
+			}
+			catch(SQLException e)
+			{
+				GestionException gestionException = new GestionException();
+				gestionException.ajouterErreur(CodesResultatDAL.DELETE_ARTICLE_ERREUR);
+			}
+		System.out.println(messageDelete);
+		return messageDelete;
+	}
 	
 	@Override
 	public List<Categorie> SelectAllCategories(){

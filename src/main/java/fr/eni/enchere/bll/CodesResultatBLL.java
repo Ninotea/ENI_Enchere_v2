@@ -45,7 +45,14 @@ public abstract class CodesResultatBLL {
 	 * Pas d'article correspondant à la recherche
 	 */
 	public static final int ARTICLE_CORRESPONDANT_MOT_NULL=20009;
-	
+	/**
+	 * Echec quand la date de début de l'enchère ne repsecte pas les règles définies
+	 */
+	public static final int REGLE_ARTICLE_DATE_DEBUT_UPDATE_ERREUR=20010;
+	/**
+	 * Echec de récupération article à supprimer dans le manager 
+	 */
+	public static final int MANAGER_ARTICLE_DELETE_NULL = 20011;
 	
 	
 }

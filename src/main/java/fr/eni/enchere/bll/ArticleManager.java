@@ -43,6 +43,39 @@ public class ArticleManager {
 		}
 		return article;
 	}
+
+	public Article modifier(Article article) throws GestionException {
+		GestionException exception = new GestionException();
+		
+		this.validerNomArticle(article,exception);
+		this.validerDescription(article,exception);
+		this.validerDateDebutUpdate(article,exception);
+		this.validerDateFin(article,exception);
+		this.validerMiseAPrix(article,exception);
+
+		if(!exception.hasErreurs())
+		{
+			this.articleDAO.update(article);
+		}
+		else
+		{
+			throw exception;
+		}
+		return article;
+	}
+
+	public String supprimer(int noArticleDelete) throws GestionException {
+		GestionException exception = new GestionException();
+		String messageDelete = null;
+		
+		if(articleDAO.SelectArticleWhereID(noArticleDelete) == null) {
+			exception.ajouterErreur(CodesResultatBLL.MANAGER_ARTICLE_DELETE_NULL);
+			throw exception;
+		}else {
+			messageDelete = this.articleDAO.delete(noArticleDelete);
+		}
+		return messageDelete;
+	}
 	
 	
 	public List<Categorie> recupererCategorie() throws GestionException{
@@ -126,14 +159,23 @@ public class ArticleManager {
 	public String ConversionEtatVente(int prixVente, java.sql.Date dateDeDebut, java.sql.Date dateDeFin) {
 		String etatVente = null;
 		
+		
 		if(prixVente != 0) {
+			// Si on a un prix de vente l'article est vendu
 			etatVente = "Vendu";
+			
 		} else if(dateDeDebut.before(aujourdhui)) {
+			//si la date de début est avant aujourd'hui l'enchère à commencé
 			if(dateDeFin.before(aujourdhui)) {
+				//si la date de fin est avant aujourd'hui l'enchère est terminé
 				etatVente = "Terminé sans vente";
 			}else {
+				// sinon l'enchère est en cours
 				etatVente = "En cours";
 			}
+		}else {
+			//l'enchère n'a pas démarrée
+			etatVente = "en attente";
 		}
 		return etatVente;
 	}
@@ -157,8 +199,14 @@ public class ArticleManager {
 	}
 	
 	private void validerDateDebut(Article article, GestionException gestionExcep){
-		if(article.getDateDebutEnchere()==null  || article.getDateDebutEnchere().before(aujourdhui)){
+		if(article.getDateDebutEnchere()==null  || article.getDateDebutEnchere().before(aujourdhui) || article.getDateDebutEnchere().after(article.getDateFinEnchere())){
 			gestionExcep.ajouterErreur(CodesResultatBLL.REGLE_ARTICLE_DATE_DEBUT_ERREUR);
+		}
+	}
+	
+	private void validerDateDebutUpdate(Article article, GestionException gestionExcep){
+		if(article.getDateDebutEnchere()==null  ||  article.getDateDebutEnchere().after(article.getDateFinEnchere())){
+			gestionExcep.ajouterErreur(CodesResultatBLL.REGLE_ARTICLE_DATE_DEBUT_UPDATE_ERREUR);
 		}
 	}
 	

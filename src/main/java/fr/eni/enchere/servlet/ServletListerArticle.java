@@ -12,15 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import fr.eni.enchere.bll.ArticleManager;
-import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.Article;
 import fr.eni.enchere.bo.Categorie;
-import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.exceptions.GestionException;
 
 
 @WebServlet(
 		urlPatterns= {
+		"/Acceuil",
 		"/Les_Encheres",
 		"/"
 		})
