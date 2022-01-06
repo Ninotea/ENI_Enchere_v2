@@ -22,12 +22,12 @@
 
 <c:if test="${empty sessionScope.user_id }">
 	<p> Vous n'êtes pas connecté.<br>
-		Merci de vous connecter avant de pouvoir accèder à l'ajout d'article.</p>
+		Merci de vous connecter avant de pouvoir accèder au détail de l'article.</p>
 </c:if>
 
 <c:if test="${!empty sessionScope.user_id }">
 
-	<form style="margin-left :10%; width :60%" name="VendreArticle" method="post">
+	<form style="margin-left :10%; width :60%" name="formDetailArticle" method="post">
 	
 	  <label for="nomArticle">Nom de l'article : </label>
 	  <input type="text" name="nomArticle" id="nomArticle" value="${requestScope.articleDetail.nomArticle}" required> <br><br>
@@ -73,8 +73,9 @@
 		</fieldset>
 	    
 		<div>
-	      <input type="submit" value="enregistrer" name="btEnregistrer" title="Enregistrer" >
-	      <input type="reset" value="annuler" name="btAnnuler" title="Annuler" >
+			<input type="text" name="noArticle" value="${requestScope.articleDetail.noArticle}" hidden="hidden">
+			<input type="submit" value="Modifer" name="modifierVente">
+			<input type="submit" value="Annuler la vente" name="annulerVente">
 		</div>
 	</form>
 </c:if>
