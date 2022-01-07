@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import fr.eni.enchere.bll.ArticleManager;
+import fr.eni.enchere.bll.EnchereManager;
 import fr.eni.enchere.bo.Article;
 import fr.eni.enchere.bo.Categorie;
+import fr.eni.enchere.bo.Enchere;
 import fr.eni.enchere.exceptions.GestionException;
 
 /**
@@ -31,8 +33,8 @@ public class ServletDetailEnchere extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArticleManager artManag = new ArticleManager();
-		Article articleDetail = new Article();
+		EnchereManager enchManag = new EnchereManager();
+		Enchere enchereDetail = new Enchere();
 		HttpSession session = request.getSession();
 
 		System.out.println("DoGET");
@@ -41,14 +43,17 @@ public class ServletDetailEnchere extends HttpServlet {
 		int propositionEnchere = (int) session.getAttribute("proposition");
 		
 		try {
-			articleDetail = artManag.recupererArticleWhereID(noArticleDetail);
+			enchereDetail = enchManag.SelectEnchereWhereID(noArticleDetail);
+			/* TODO: Modifié le prix par la proposition
+			 * propositionEnchere =
+			 */
 		} catch (GestionException e) {
 			request.setAttribute("listExce",e.getListeCodesErreur());			
 		
 		}
 		
-		
-		//si l'enchere n'a pas pu etre insÃ©rÃ©e
+		//TODO: 
+		//si l'enchere n'a pas pu etre insérée
 		this.getServletContext().getRequestDispatcher("/WEB-INF/DetailEnchere.jsp").forward(request, response);		
 	}
 
