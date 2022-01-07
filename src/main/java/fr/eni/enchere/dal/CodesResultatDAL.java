@@ -27,5 +27,9 @@ public abstract class CodesResultatDAL {
 	 * Echec de la suppression de l'article en vente
 	 */
 	public static final int DELETE_ARTICLE_ERREUR = 10004;
+	/**
+	 * Echec de la récupération de la liste d'enchere
+	 */
+	public static final int RECUPERATION_ALL_ENCHERE_ERREUR = 40000;
 	
 }

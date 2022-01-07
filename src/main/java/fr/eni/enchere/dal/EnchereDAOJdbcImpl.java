@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.enchere.bll.ArticleManager;
@@ -24,6 +25,8 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 	private static final String INSERT_ENCHERE = "INSERT INTO ENCHERES(date_enchere, montant_enchere, no_article, no_utilisateur) VALUES(?,?,?,?)";
 	
 	private static final String UPDATE_ENCHERE = "UPDATE ENCHERES SET date_enchere = ?, montant_enchere = ?, no_utilisateur = ? WHERE no_article = ?";	
+	
+	private static final String SQL_SELECT_ENCHERE_ALL = "SELECT * FROM ENCHERES";
 	
 	public EnchereDAOJdbcImpl() {
 		
@@ -130,9 +133,28 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 
 	@Override
 	public List<Enchere> SelectEnchereAll() throws GestionException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Enchere> listEnchere = new ArrayList<Enchere>(); //Création d'une nouvelle list d'enchere
+		
+		try(Connection cnx = ConnectionProvider.getConnection()) 
+		{				
+			Statement statement = cnx.createStatement();
+			ResultSet rs = statement.executeQuery(SQL_SELECT_ENCHERE_ALL);
+			
+			while(rs.next()) {
+				Enchere enchereResultSet = new Enchere(rs.getTimestamp("date_enchere").toLocalDateTime(), rs.getInt("montant_enchere"),rs.getInt("no_article"),rs.getInt("no_utilisateur"));
+				listEnchere.add(enchereResultSet);
+			}
+		
+		}
+		catch(SQLException e)
+		{
+			GestionException gestionException = new GestionException();
+			gestionException.ajouterErreur(CodesResultatDAL.RECUPERATION_ALL_ENCHERE_ERREUR);
+		}
+		return listEnchere;
 	}
+	
 
 
 	@Override
