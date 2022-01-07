@@ -38,7 +38,7 @@ public Enchere SelectEnchereWhereID (int no_Article) throws GestionException {
 			}
 			return SelectEnchereWhereID(no_Article);
 	}
-	//Récupération des encheres
+	//Méthode Récupération des encheres
 public List<Enchere> recupererEnchere() throws GestionException{
 	
 	List<Enchere> listeEnchere = null;
