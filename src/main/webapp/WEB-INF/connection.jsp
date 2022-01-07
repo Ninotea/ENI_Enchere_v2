@@ -29,7 +29,7 @@
 	</form>
 	
 	<form method="POST" > <!-- /Inscription est la terminaison URL indiquée dans le Web.xml -->
-		<input style="margin:40px padding:20px" class="col-xs-offset-2 btn btn-primary btn-lg" type="submit" name="redirection" value="Inscription"><br/>
+		<input style="margin:30px padding:20px" class="col-xs-offset-2 btn btn-primary btn-lg" type="submit" name="redirection" value="Inscription"><br/>
 	</form>
 </div>
 </div>
