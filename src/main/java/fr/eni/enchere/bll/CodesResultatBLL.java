@@ -57,6 +57,10 @@ public abstract class CodesResultatBLL {
 	 * Validation de la disponibilitÃ© du pseudo Erreur
 	 */
 	public static final int VERIFICATION_PSEUDO_ERREUR = 20012;
+	/**
+	 * Echec de la récupération enchere dans le manager
+	 */
+	public static final int MANAGER_ENCHERE_NULL = 40001;
 	
 	
 }
