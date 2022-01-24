@@ -49,7 +49,7 @@
 					</p>
 					<p class="col-xs-2 ">
 						<input type="text" name="champRecherche" id="champRecherche" value="${requestScope.motRecherche}" placeholder="Rechercher un article ICI ..."> <br>
-						<select name="categorie" id="categorie">
+						<select name="categorie" id="categorie" style="color:black;">
 								<Option value="Toutes" selected="selected"> Toutes </Option>
 						   		<c:forEach items="${listCatUse}" var="categorie">
 							   		<c:choose>

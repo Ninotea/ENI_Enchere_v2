@@ -87,6 +87,7 @@ public class ServletListerArticle extends HttpServlet {
 				
 					String motRecherche = request.getParameter("champRecherche");
 					String catRecherche = request.getParameter("categorie");
+					System.out.println(catRecherche);
 					int idCatRecherche = -1;
 					
 				// récupération de l'ID Catégorie placé à -1 si "Toutes"
@@ -155,18 +156,16 @@ public class ServletListerArticle extends HttpServlet {
 							listArticleFinal = listArticleFiltreParType;
 						}
 						
-						if(typeArticle.equals("achat")) {
+						if(typeArticle != null && typeArticle.equals("achat")) {
 							// si aucune CheckBox n'est coché on affiche tous les achats
 							if(!encEnCours && !encEnCours && !encRemporte && !encNonRemporte) {
 								listArticleFiltreFinal = listArticleFiltreParType;
-								System.out.println("on passe ici 1");
 								
 							// sinon on ajoute a la Liste filtrée finale chacun des articles correspondant au critère suivant état vente
 							} else {
 								try {
 									if(encEnCours) {
 										listArticleFiltreFinal = artManag.addWhenEtatVente(listArticleFiltreFinal,listArticleFiltreParType,"EnCours");
-										System.out.println("on passe ici 2");
 									}if(encNonDeb) {
 										listArticleFiltreFinal = artManag.addWhenEtatVente(listArticleFiltreFinal,listArticleFiltreParType,"NonDeb");
 									}if(encRemporte) {
@@ -180,7 +179,7 @@ public class ServletListerArticle extends HttpServlet {
 							}
 							listArticleFinal = listArticleFiltreFinal;
 						}
-						if(typeArticle.equals("vente")) {
+						if(typeArticle != null && typeArticle.equals("vente")) {
 							// si aucune CheckBox n'est coché on affiche tous les achats
 							if(!venEnCours && !venNonDeb && !venTerm && !venNonRemporte) {
 								listArticleFiltreFinal = listArticleFiltreParType;
