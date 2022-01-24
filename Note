@@ -3,6 +3,8 @@ http://localhost:11716/ENI_Enchere_v2/Acceuil ou
 http://localhost:11716/ENI_Enchere_v2/ ou
 http://localhost:11716/ENI_Enchere_v2/Les_Encheres (lors du fontionnement nominal)
 
-On utilise un serveur Tomcat 8.5
+On utilise un serveur Tomcat 8.5 et une base de données Microsoft SQL Server, le détail de la connexion est dans le fichier context.xml
+Un script autogénéré des tables est joint.
+
 Le TP à été réalisé en 2 semaines effectives de travail par 3 étudiants D2WM.
 Chaque étudiants à écrit une partie différente du code.
